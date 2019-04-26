@@ -174,13 +174,44 @@ def spider(request):
 def graph(request):
     query = request.GET.get('links')
     qs = Product.objects.get(id=query)
-    starww5 = qs.star5
-    # print(type(starw5))
-    starw5 = starww5.replace(',' , '')
-    starw4 = qs.star4
-    starw3 = qs.star3 
-    starw2 = qs.star2
-    starw1 = qs.star1
+
+    if 'amazon' in qs.url:
+        totalrating = qs.no_reviews
+        if ',' in totalrating:
+            a = (totalrating.replace(',', ' ')).split(' ')
+            # a = a.split(' ')
+            b = a[0] + a[1]
+        else:
+            a = totalrating.split(' ')
+            b = a[0]   
+        b = int(b)
+        # print(b)
+        starww5 = qs.star5
+        starw5 = starww5.replace('%' , '')
+        # print(starw5)
+        starw5 = str((b*int(starw5))/100)
+        # print(starw5)
+        starw4 = str((b*int((qs.star4).replace('%' , '')))/100)
+        # print(starw4)
+        starw3 = str((b*int((qs.star3).replace('%' , '')))/100)
+        # print(starw3)
+        starw2 = str((b*int((qs.star2).replace('%' , '')))/100)
+        # print(starw2)
+        starw1 = str((b*int((qs.star1).replace('%' , '')))/100)
+        # print(starw1)
+
+    else:
+
+        starww5 = qs.star5
+        # print(type(starw5))
+        starw5 = starww5.replace(',' , '')
+        starw4 = qs.star4
+        starw3 = qs.star3 
+        starw2 = qs.star2
+        starw1 = qs.star1
+
+    
+    
     
     pie3d = FusionCharts("pie3d", "ex2" , "100%", "600", "chart-1", "json", 
         { 
