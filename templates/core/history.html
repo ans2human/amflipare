@@ -1,0 +1,104 @@
+{% load static %}	
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="{% static "img/favicon.png" %}" type="image/png">
+        <title>Product Analyzer</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href= "{% static "css/bootstrap.css" %}">
+        <link rel="stylesheet" href= "{% static "vendors/linericon/style.css" %}">
+        <link rel="stylesheet" href= "{% static "css/font-awesome.min.css" %}">
+        <link rel="stylesheet" href= "{% static "vendors/owl-carousel/owl.carousel.min.css" %}">
+        <link rel="stylesheet" href= "{% static "vendors/lightbox/simpleLightbox.css" %}">
+        <link rel="stylesheet" href= "{% static "vendors/nice-select/css/nice-select.css" %}">
+        <link rel="stylesheet" href="{% static "vendors/animate-css/animate.css" %}">
+        <!-- main css -->
+        <link rel="stylesheet" href= "{% static "css/style.css" %}">
+        <link rel="stylesheet" href="{% static "css/responsive.css" %}">
+		
+		<link rel="stylesheet" href="{% static "css/stylee.css" %}">
+<style>
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    color: black;
+}
+
+#customers tr:nth-child(even){background-color: #e6d9d9;}
+#customers tr:nth-child(odd){background-color: white;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 12px;  
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+div.ex1 {
+  width:95%;
+  margin: auto;
+  border: autox;
+}
+
+</style>
+</head>
+<body>
+        <header class="header_area">
+                <div class="main_menu">
+                    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:steelblue;">
+                        <div class="container box_1620">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <a class="navbar-brand logo_h" href="index.html"><img src={% static "img/logo.png" %}" alt=""></a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                                <ul class="nav navbar-nav menu_nav justify-content-center">
+                                    <li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">Home</a></li> 
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li> 
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'abc' %}">Analyzer</a>
+                                    
+                                    
+                                    </li> 
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'contactform' %}">Feedback</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'history' %}">History</a></li>
+                                </ul>
+                               
+                            </div> 
+                        </div>
+                    </nav>
+                </div>
+            </header>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <br><br><br><br><br>
+<div class="ex1">
+    <p><h1 align='center' ><font color="white">HISTORY</font></h1></p>
+ <table id="customers">
+ <th>Name</th>
+ <th>Url</th>
+    </tr>
+    {% for a in qs %}	
+    <tr>
+            <td>{{a.squery}}</td> 
+            <td>{{a.urls}}</td> 
+    </tr>
+    {% endfor %}
+
+</table>
+</div>
+</body>
+</html>

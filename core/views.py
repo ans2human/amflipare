@@ -4,13 +4,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic.edit import FormView
-from .forms import SearchForm
+from .forms import SearchForm,  FeedbackForm
 from urllib.parse import urlencode, urlparse, parse_qs
 from lxml.html import fromstring
 from requests import get
 from bs4 import BeautifulSoup
 import requests
-from .models import Search, Product, Review
+from .models import Search, Product, Feedback
 from ast import literal_eval
 from .fusioncharts import FusionCharts
 from datetime import datetime
@@ -44,9 +44,11 @@ class ABC(FormView):
             'urls':str(aallinks),
         }
         Search.objects.update_or_create(**data)
+
         # instance = Search(**data)
         # instance.save()
         return render(self.request, self.template_name, {'a':aallinks,  'squery': query,})
+    
 
 
 def spider(request):
@@ -251,3 +253,52 @@ class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
+
+def index(request):
+    return render(request,'core/index.html')
+
+
+def about(request):
+    return render(request,'core/about-us.html')  
+
+
+def contact(request):
+    return render(request,'core/contact.html')
+
+
+
+# def feedback(request):
+#     form = FeedbackForm(request.POST or None)
+#     print(form)
+#     if form.is_valid():
+#         abc = form.save(commit=False)
+#         abc.save()
+#         return render(request, 'core/contactform.html', {'form':form})  
+#     else:
+#         return render(request,'core/contactform.html', {'form' : form})
+
+
+def contactform(request):
+    return render(request, 'core/contactform.html')
+
+
+
+def feedback(request):
+    if request.method == 'POST':
+        if request.POST.get('name') and request.POST.get('email') and request.POST.get('message'):
+            post=Feedback()
+            post.name= request.POST.get('name')
+            post.email= request.POST.get('email')
+            post.message= request.POST.get('message')
+            post.save()
+            return render(request, 'core/contactform.html')  
+
+    else:
+        return render(request,'core/contactform.html')
+
+def history(request):
+    xyz = ABC()   
+    return render(request, 'core/history.html',{'qs':Search.objects.all().order_by()[::-1],'xyz':xyz})
+
+
+
