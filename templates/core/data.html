@@ -133,6 +133,7 @@
 								<th class="column4">RATING</th>
 								<th class="column5">NO_REVIEWS</th>
 								<th class="column5">ANALYSIS</th>
+								<th class="column5">VIEW PRODUCT</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -140,14 +141,14 @@
 						<tr>
 								
 							<td class="column1">{{a.product_name}}</td>
-							<td class="column2"><a href="{{a.url}}"></a>{{a.url}}</td>
+							<td class="column2"><a href="{{a.url}}">{{a.url}}</a></td>
 							<td class="column3">{{a.price}}</td>
 							<td class="column4">{{a.rating}}</td>
 							<td class="column5">{{a.no_reviews}}</td>
 							
 							<td class="column6"><a href="{% url 'graph' %}?links={{ a.id|urlencode }}" ><button class="button">View Graph</button>
 							</a></td>
-									
+								<td><a class='btn btn-success' href="{{a.url}}"><button class="button">View</button></a></td>	
 						</tr>
 						
 						{% endfor %}		

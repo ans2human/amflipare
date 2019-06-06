@@ -14,7 +14,7 @@ from .models import Search, Product, Feedback
 from ast import literal_eval
 from .fusioncharts import FusionCharts
 from datetime import datetime
-
+from django.core.mail import send_mail
 
 class ABC(FormView):
 
@@ -23,30 +23,28 @@ class ABC(FormView):
 
     def form_valid(self, form):
         query = form.cleaned_data.get('query', None)
-        #qq = input()
-        q = { 'q' : query}
-
-        url = "https://www.google.com/search?{}".format(urlencode(q))
-        raw = get(url).text
-
-        page = fromstring(raw)
+        #new code with bs4
+        url = 'https://www.google.com/search?q='
+        url_data = url + query
+        raw = get(url_data)
+        soup = BeautifulSoup(raw.content, 'html5lib')
+        links = soup.find_all('a')
         allinks = []
-        for result in page.cssselect(".r a"):
-            url = result.get("href")
-            if url.startswith("/url?"):
-                url = parse_qs(urlparse(url).query)['q']
-                a = url[0]
-                sites = ['amazon.in', 'flipkart.com']
+        for link in links:
+            a = link['href']
+            if a.startswith('/url?'):
+                a = a.lstrip('/url?q=')
+                a = a.split('&sa=')[0]
                 allinks.append(a)
-                aallinks = [i for e in sites for i in allinks if e in i]
+                asasa = set(allinks)
+        sites = ['amazon.in', 'flipkart.com'] 
+        aallinks = [i for e in sites for i in asasa if e in i]
+        print(aallinks)
         data = {
             'squery': query,
             'urls':str(aallinks),
         }
         Search.objects.update_or_create(**data)
-
-        # instance = Search(**data)
-        # instance.save()
         return render(self.request, self.template_name, {'a':aallinks,  'squery': query,})
     
 
@@ -286,11 +284,10 @@ def contactform(request):
 def feedback(request):
     if request.method == 'POST':
         if request.POST.get('name') and request.POST.get('email') and request.POST.get('message'):
-            post=Feedback()
-            post.name= request.POST.get('name')
-            post.email= request.POST.get('email')
-            post.message= request.POST.get('message')
-            post.save()
+            subject= request.POST.get('name')
+            from_email= request.POST.get('email')
+            message= request.POST.get('message')
+            send_mail(subject, message, from_email, ['admin@admin.com'])
             return render(request, 'core/contactform.html')  
 
     else:
